@@ -192,6 +192,34 @@ export function VirtualList<T>(props: IVirtualListProps<T>): JSX.Element {
     )
 }
 
+{/* 虚拟列表 */}
+                {
+                    <VirtualList<IChatInfo> 
+                        id={instance.current.chatVirtualListId} 
+                        height={height} 
+                        list={chatList} 
+                        onLoadData={getChatList} 
+                        rowHeight={instance.current.rowHeight} 
+                        bufferSize={bufferSize}
+                        width={chatListPanelStyle.width}
+                        rowRender={(data) => {
+                            const { index, style, item: chatInfo } = data
+                            const { top, width } = style
+                            
+                            if (!chatInfo) 
+                                return <></>
+                            return <ChatView
+                                key={index}
+                                chatInfo={chatInfo}
+                                onClick={onChatClick}
+                                index={index}
+                                style={{ top, width }}
+                                className={"virtual"}
+                            />
+                        }}
+                    />
+                }
+
 // 废弃（思路类似于蜜蜂、空间，有bug）
 // export function ReactVirtualList<T>(props: IVirtualListProps<T>): JSX.Element {
 //     const { id, className = "", height, list, width, rowHeight = 56, bufferSize = 10, onLoadData, rowRender } = props
